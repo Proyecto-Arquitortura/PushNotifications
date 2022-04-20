@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import com.example.PushNotification.model.PushNotificationRequest;
+import com.google.api.services.storage.model.Notifications;
 import com.google.firebase.messaging.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,8 +59,9 @@ public class FCMService {
     private Message.Builder getPreconfiguredMessageBuilder(PushNotificationRequest request) {
         AndroidConfig androidConfig = getAndroidConfig(request.getTopic());
         ApnsConfig apnsConfig = getApnsConfig(request.getTopic());
+        Notification noti= Notification.builder().setTitle(request.getTitle()).setBody(request.getMessage()).build();
         return Message.builder()
                .setApnsConfig(apnsConfig).setAndroidConfig(androidConfig).setNotification(
-                        Notification.builder().build());
+                        noti);
     }
 }
